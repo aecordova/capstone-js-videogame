@@ -3,12 +3,17 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // eslint-disable-next-line import/no-unresolved, import/no-extraneous-dependencies
 // const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpack = require('webpack');
 
 
 module.exports = {
   entry: './src/js/index.js',
   plugins: [
     // new CleanWebpackPlugin(),
+    new webpack.DefinePlugin({
+      'typeof CANVAS_RENDERER': JSON.stringify(true),
+      'typeof WEBGL_RENDERER': JSON.stringify(true)
+    }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
@@ -16,9 +21,6 @@ module.exports = {
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
-  },
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
   },
   module: {
     rules: [
