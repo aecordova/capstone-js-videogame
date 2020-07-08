@@ -6,8 +6,8 @@ export default class CreditsScene extends Phaser.Scene {
   }
 
   preload() {
-  };
+  }
 
   create() {
-  };
+  }
 }
