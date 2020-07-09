@@ -1,86 +1,105 @@
-import 'phaser';
+import Phaser from 'phaser';
+import blueButton1 from '../assets/ui/blue_button02.png';
+import blueButton2 from '../assets/ui/blue_button03.png';
+import phaserLogo from '../assets/logo.png';
+import box from '../assets/ui/grey_box.png';
+import checkedBox from '../assets/ui/blue_boxCheckmark.png';
+import bgMusic from '../assets/TownTheme.mp3';
+
 
 export default class PreloaderScene extends Phaser.Scene {
-  constructor() {
+  constructor () {
     super('Preloader');
   }
 
-  preload() {
+  init () {
+    this.readyCount = 0;
+  }
+
+  preload () {
+    // add logo image
     this.add.image(400, 200, 'logo');
 
-    const progressBar = this.add.graphics();
-    const progressBox = this.add.graphics();
+    // display progress bar
+    var progressBar = this.add.graphics();
+    var progressBox = this.add.graphics();
+    progressBox.fillStyle(0x222222, 0.8);
+    progressBox.fillRect(240, 270, 320, 50);
 
-    progressBar.fillStyle(0x222222, 0.8);
-    progressBar.fillRect(240, 270, 320, 50);
-
-    const { width } = this.cameras.cameras.main;
-    const { height } = this.cameras.cameras.main.height;
-
-    const loadingText = this.make.text({
+    var width = this.cameras.main.width;
+    var height = this.cameras.main.height;
+    var loadingText = this.make.text({
       x: width / 2,
-      y: height / 2,
+      y: height / 2 - 50,
       text: 'Loading...',
       style: {
         font: '20px monospace',
-        fill: '#fffff',
-      },
+        fill: '#ffffff'
+      }
     });
     loadingText.setOrigin(0.5, 0.5);
 
-    const percentText = this.make.text({
+    var percentText = this.make.text({
       x: width / 2,
       y: height / 2 - 5,
-      text: '',
+      text: '0%',
       style: {
         font: '18px monospace',
-        fill: '#fffff',
-      },
+        fill: '#ffffff'
+      }
     });
     percentText.setOrigin(0.5, 0.5);
 
-    const assetText = this.make.text({
+    var assetText = this.make.text({
       x: width / 2,
       y: height / 2 + 50,
       text: '',
       style: {
         font: '18px monospace',
-        fill: '#fffff',
-      },
+        fill: '#ffffff'
+      }
     });
     assetText.setOrigin(0.5, 0.5);
 
-    this.load.on('fileprogress', (file) => {
-      assetText.setText(`Loading asset:  ${file.key}`);
+    // update progress bar
+    this.load.on('progress', function (value) {
+      percentText.setText(parseInt(value * 100) + '%');
+      progressBar.clear();
+      progressBar.fillStyle(0xffffff, 1);
+      progressBar.fillRect(250, 280, 300 * value, 30);
     });
 
-    this.load.on('complete', () => {
+    // update file progress text
+    this.load.on('fileprogress', function (file) {
+      assetText.setText('Loading asset: ' + file.key);
+    });
+
+    // remove progress bar when complete
+    this.load.on('complete', function () {
       progressBar.destroy();
       progressBox.destroy();
       loadingText.destroy();
       percentText.destroy();
       assetText.destroy();
-    }).bind(this);
+    }.bind(this));
 
     this.timedEvent = this.time.delayedCall(3000, this.ready, [], this);
 
-    this.load.image('blueButton1', 'assets/ui/blue_button02.png');
-    this.load.image('blueButton2', 'assets/ui/blue_button03.png');
-    this.load.image('phaserLogo', 'assets/logo.png');
-
-    function init() {
-      this.readyCount = 0;
-    }
-
-    function ready() {
-      this.readyCount += 1;
-      if (this.readyCount === 2) {
-        this.scene.start('Title');
-      }
-    }
+    // load assets needed in our game
+    this.load.image('blueButton1', blueButton1);
+    this.load.image('blueButton2', blueButton2);
+    this.load.image('phaserLogo', phaserLogo);
+    this.load.image('box', box);
+    this.load.image('checkedBox', checkedBox );
+    this.load.audio('bgMusic', [bgMusic]);
   }
 
-  create() {
-    this.scene.start('Preloader');
+  ready () {
+    this.scene.start('Options');
+    this.readyCount++;
+    if (this.readyCount === 2) {
+      this.scene.start('Title');
+    }
   }
-}
+};
+
