@@ -5,6 +5,8 @@ import phaserLogo from '../assets/logo.png';
 import box from '../assets/ui/grey_box.png';
 import checkedBox from '../assets/ui/blue_boxCheckmark.png';
 import bgMusic from '../assets/TownTheme.mp3';
+import platform from '../assets/gameplay/platform.png';
+import player from '../assets/gameplay/player.png';
 
 
 export default class PreloaderScene extends Phaser.Scene {
@@ -18,7 +20,7 @@ export default class PreloaderScene extends Phaser.Scene {
 
   preload() {
     // add logo image
-    this.add.image(400, 200, 'logo');
+    // this.add.image(400, 200, 'logo');
 
     // display progress bar
     const progressBar = this.add.graphics();
@@ -63,7 +65,7 @@ export default class PreloaderScene extends Phaser.Scene {
 
     // update progress bar
     this.load.on('progress', (value) => {
-      percentText.setText(`${parseInt(value * 100)}%`);
+      percentText.setText(`${parseInt(value * 100, 10)}%`);
       progressBar.clear();
       progressBar.fillStyle(0xffffff, 1);
       progressBar.fillRect(250, 280, 300 * value, 30);
@@ -93,10 +95,13 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('box', box);
     this.load.image('checkedBox', checkedBox);
     this.load.audio('bgMusic', [bgMusic]);
+    // gameplay
+    this.load.image('platform', platform);
+    this.load.image('player', player);
   }
 
   ready() {
-    this.readyCount++;
+    this.readyCount += 1;
     if (this.readyCount === 2) {
       this.scene.start('Title');
     }
