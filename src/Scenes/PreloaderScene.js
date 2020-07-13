@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import blueButton1 from '../assets/ui/blue_button02.png';
 import blueButton2 from '../assets/ui/blue_button03.png';
-import phaserLogo from '../assets/logo.png';
+import mainLogo from '../assets/zenva_logo.png';
 import box from '../assets/ui/grey_box.png';
 import checkedBox from '../assets/ui/blue_boxCheckmark.png';
 import bgMusic from '../assets/TownTheme.mp3';
@@ -19,31 +19,36 @@ export default class PreloaderScene extends Phaser.Scene {
   }
 
   preload() {
-    // add logo image
-    // this.add.image(400, 200, 'logo');
-
-    // display progress bar
-    const progressBar = this.add.graphics();
-    const progressBox = this.add.graphics();
-    progressBox.fillStyle(0x222222, 0.8);
-    progressBox.fillRect(240, 270, 320, 50);
-
     const { width } = this.cameras.main;
     const { height } = this.cameras.main;
+
+    const progressBar = this.add.graphics({
+      x: -(width / 2),
+      y: -(height / 2),
+    });
+    const progressBox = this.add.graphics({
+      x: -(width / 2),
+      y: -(height / 2),
+    });
+
+    progressBox.fillStyle(0x222222, 0.8);
+    progressBox.fillRoundedRect(240, 270, 320, 50);
+
     const loadingText = this.make.text({
       x: width / 2,
-      y: height / 2 - 50,
+      y: height / 2 - 100,
       text: 'Loading...',
       style: {
         font: '20px monospace',
         fill: '#ffffff',
       },
     });
+
     loadingText.setOrigin(0.5, 0.5);
 
     const percentText = this.make.text({
       x: width / 2,
-      y: height / 2 - 5,
+      y: height / 2,
       text: '0%',
       style: {
         font: '18px monospace',
@@ -63,41 +68,38 @@ export default class PreloaderScene extends Phaser.Scene {
     });
     assetText.setOrigin(0.5, 0.5);
 
-    // update progress bar
     this.load.on('progress', (value) => {
       percentText.setText(`${parseInt(value * 100, 10)}%`);
       progressBar.clear();
       progressBar.fillStyle(0xffffff, 1);
-      progressBar.fillRect(250, 280, 300 * value, 30);
+      progressBar.fillRoundedRect(250, 280, 300 * value, 30);
     });
 
-    // update file progress text
     this.load.on('fileprogress', (file) => {
       assetText.setText(`Loading asset: ${file.key}`);
     });
 
-    // remove progress bar when complete
-    this.load.on('complete', () => {
-      progressBar.destroy();
-      progressBox.destroy();
-      loadingText.destroy();
-      percentText.destroy();
-      assetText.destroy();
-      this.ready();
-    });
-
-    this.timedEvent = this.time.delayedCall(3000, this.ready, [], this);
-
-    // load assets needed in our game
     this.load.image('blueButton1', blueButton1);
     this.load.image('blueButton2', blueButton2);
-    this.load.image('phaserLogo', phaserLogo);
+    this.load.image('mainLogo', mainLogo);
     this.load.image('box', box);
     this.load.image('checkedBox', checkedBox);
     this.load.audio('bgMusic', [bgMusic]);
     // gameplay
     this.load.image('platform', platform);
     this.load.image('player', player);
+
+    this.load.on('complete', () => {
+      progressBar.destroy();
+      progressBox.destroy();
+      loadingText.destroy();
+      percentText.destroy();
+      assetText.destroy();
+      this.add.image(width / 2, height / 2, 'mainLogo');
+      this.ready();
+    });
+    
+    this.timedEvent = this.time.delayedCall(3000, this.ready, [], this);
   }
 
   ready() {
