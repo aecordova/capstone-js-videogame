@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import config from '../Config/config';
+
 
 export default class OptionsScene extends Phaser.Scene {
   constructor() {
@@ -6,18 +8,23 @@ export default class OptionsScene extends Phaser.Scene {
   }
 
   create() {
-    this.musicOn = true;
-    this.soundOn = true;
-
+    const { width, height } = config;
     // var music = this.sound.add('bgMusic');
     // music.play();
 
-    this.text = this.add.text(300, 100, 'Options', { fontSize: 40 });
-    this.musicButton = this.add.image(200, 200, 'checkedBox');
-    this.musicText = this.add.text(250, 190, 'Music Enabled', { fontSize: 24 });
+    this.musicOn = true;
+    this.soundOn = true;
 
-    this.soundButton = this.add.image(200, 300, 'checkedBox');
-    this.soundText = this.add.text(250, 290, 'Sound Enabled', { fontSize: 24 });
+    this.musicButton = this.add.image((width / 2) - 100, (height / 3) + 40, 'checkedBox');
+    this.soundButton = this.add.image((width / 2) - 100, (height / 3) + 110, 'checkedBox');
+
+    this.text = this.add.text((width / 2), (height / 3) - 100, 'Options', { fontSize: 40 });
+    this.musicText = this.add.text((width / 2) + this.musicButton.width, (height / 3), 'Music Enabled', { fontSize: 24 });
+    this.soundText = this.add.text((width / 2) + this.soundButton.width, (height / 3) + 70, 'Sound Enabled', { fontSize: 24 });
+
+    this.text.setOrigin(0.5, 0.5);
+    this.musicText.setOrigin(0.5, 0.5);
+    this.soundText.setOrigin(0.5, 0.5);
 
     this.musicButton.setInteractive();
     this.soundButton.setInteractive();
@@ -32,7 +39,7 @@ export default class OptionsScene extends Phaser.Scene {
       this.updateAudio();
     });
 
-    this.menuButton = this.add.sprite(400, 500, 'blueButton1').setInteractive();
+    this.menuButton = this.add.sprite(, 'blueButton1').setInteractive();
     this.menuText = this.add.text(0, 0, 'Menu', { fontSize: '32px', fill: '#fff' });
     Phaser.Display.Align.In.Center(this.menuText, this.menuButton);
 
@@ -55,5 +62,17 @@ export default class OptionsScene extends Phaser.Scene {
     } else {
       this.soundButton.setTexture('checkedBox');
     }
+  }
+
+  centerObject(gameObject, offset = 0, baseWidth, baseHeight) {
+    Phaser.Display.Align.In.Center(
+      gameObject,
+      this.add.zone(
+        baseWidth / 2,
+        offset,
+        baseWidth,
+        baseHeight / 2,
+      ),
+    );
   }
 }
