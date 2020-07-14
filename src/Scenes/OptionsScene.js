@@ -15,12 +15,12 @@ export default class OptionsScene extends Phaser.Scene {
     this.musicOn = true;
     this.soundOn = true;
 
-    this.musicButton = this.add.image((width / 2) - 100, (height / 3) + 40, 'checkedBox');
-    this.soundButton = this.add.image((width / 2) - 100, (height / 3) + 110, 'checkedBox');
+    this.musicButton = this.add.image((width / 2) - 100, (height / 3) + 10, 'checkedBox');
+    this.soundButton = this.add.image((width / 2) - 100, (height / 3) + 80, 'checkedBox');
 
-    this.text = this.add.text((width / 2), (height / 3) - 100, 'Options', { fontSize: 40 });
-    this.musicText = this.add.text((width / 2) + this.musicButton.width, (height / 3), 'Music Enabled', { fontSize: 24 });
-    this.soundText = this.add.text((width / 2) + this.soundButton.width, (height / 3) + 70, 'Sound Enabled', { fontSize: 24 });
+    this.text = this.add.text((width / 2), (height / 3) - 130, 'Options', { fontSize: 40 });
+    this.musicText = this.add.text((width / 2) + this.musicButton.width, (height / 3) - 30, 'Music Enabled', { fontSize: 24 });
+    this.soundText = this.add.text((width / 2) + this.soundButton.width, (height / 3) + 40, 'Sound Enabled', { fontSize: 24 });
 
     this.text.setOrigin(0.5, 0.5);
     this.musicText.setOrigin(0.5, 0.5);
@@ -39,9 +39,10 @@ export default class OptionsScene extends Phaser.Scene {
       this.updateAudio();
     });
 
-    this.menuButton = this.add.sprite(, 'blueButton1').setInteractive();
-    this.menuText = this.add.text(0, 0, 'Menu', { fontSize: '32px', fill: '#fff' });
-    Phaser.Display.Align.In.Center(this.menuText, this.menuButton);
+    this.menuButton = this.add.sprite((width / 2), (height / 3) + 150, 'blueButton1').setInteractive();
+    this.menuText = this.add.text((width / 2), (height / 3) + 95, 'Menu', { fontSize: '32px', fill: '#fff' });
+    this.menuText.setOrigin(0.5, 0.5);
+    // Phaser.Display.Align.In.Center(this.menuText, this.menuButton);
 
     this.menuButton.on('pointerdown', () => {
       this.scene.start('Title');

@@ -99,13 +99,13 @@ export default class PreloaderScene extends Phaser.Scene {
       this.ready();
     });
 
-    this.timedEvent = this.time.delayedCall(0, this.ready, [], this);
+    this.timedEvent = this.time.delayedCall(3000, this.ready, [], this);
   }
 
   ready() {
     this.readyCount += 1;
     if (this.readyCount === 2) {
-      this.scene.start('Options');
+      this.scene.start('Title');
     }
   }
 }
