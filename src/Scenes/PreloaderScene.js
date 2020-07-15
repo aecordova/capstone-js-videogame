@@ -6,9 +6,8 @@ import box from '../assets/ui/grey_box.png';
 import checkedBox from '../assets/ui/blue_boxCheckmark.png';
 import bgMusic from '../assets/TownTheme.mp3';
 import platform from '../assets/gameplay/platform.png';
-import player from '../assets/gameplay/player/catrun.png';
-import coin from '../assets/gameplay/coin.png';
-import fire from '../assets/gameplay/fire.png';
+import player from '../assets/gameplay/catrun.png';
+import zombie from '../assets/gameplay/zombie.png';
 import mountain from '../assets/gameplay/mountain.png';
 
 
@@ -92,20 +91,12 @@ export default class PreloaderScene extends Phaser.Scene {
       frameWidth: 40,
       frameHeight: 50,
     });
-    this.load.spritesheet('coin', coin, {
-      frameWidth: 20,
-      frameHeight: 20,
+    this.load.spritesheet('zombie', zombie, {
+      frameWidth: 45,
+      frameHeight: 58,
     });
-    this.load.spritesheet('fire', fire, {
-      frameWidth: 40,
-      frameHeight: 70,
-    });
-    this.load.spritesheet('mountain', mountain, {
-      frameWidth: 512,
-      frameHeight: 512,
-    });
+
     this.load.audio('bgMusic', [bgMusic]);
-    // setting player animation
 
     this.load.on('complete', () => {
       progressBar.destroy();
