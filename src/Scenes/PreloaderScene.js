@@ -8,7 +8,8 @@ import bgMusic from '../assets/TownTheme.mp3';
 import platform from '../assets/gameplay/platform.png';
 import player from '../assets/gameplay/catrun.png';
 import zombie from '../assets/gameplay/zombie.png';
-import mountain from '../assets/gameplay/mountain.png';
+import star from '../assets/gameplay/stars.png';
+import background from '../assets/gameplay/background.png';
 
 
 export default class PreloaderScene extends Phaser.Scene {
@@ -87,6 +88,7 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('box', box);
     this.load.image('checkedBox', checkedBox);
     this.load.image('platform', platform);
+    this.load.image('bg', background);
     this.load.spritesheet('player', player, {
       frameWidth: 40,
       frameHeight: 50,
@@ -94,6 +96,10 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.spritesheet('zombie', zombie, {
       frameWidth: 45,
       frameHeight: 58,
+    });
+    this.load.spritesheet('star', star, {
+      frameWidth: 22,
+      frameHeight: 22,
     });
 
     this.load.audio('bgMusic', [bgMusic]);
@@ -114,7 +120,7 @@ export default class PreloaderScene extends Phaser.Scene {
   ready() {
     this.readyCount += 1;
     if (this.readyCount === 2) {
-      this.scene.start('Game');
+      this.scene.start('Title');
     }
   }
 }

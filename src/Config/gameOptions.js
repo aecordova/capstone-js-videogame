@@ -1,36 +1,16 @@
 const gameOptions = {
-  platformSpeedRange: [200, 300],
-
-  // mountain speed, in pixels per second
+  platformSpeedRange: [150, 300],
   mountainSpeed: 80,
-
-  // spawn range, how far should be the rightmost platform from the right edge
-  // before next platform spawns, in pixels
   spawnRange: [50, 250],
-
-  // platform width range, in pixels
-  platformSizeRange: [200, 300],
-
-  // a height range between rightmost platform and next platform to be spawned
-  platformHeightRange: [-4, 4],
-
-  // a scale to be multiplied by platformHeightRange
-  platformHeighScale: 20,
-
-  // platform max and min height, as screen height ratio
-  platformVerticalLimit: [0.2, 0.6],
-
-  // player gravity
+  platformSizeRange: [180, 300],
+  platformHeightRange: [-1, 1],
+  platformHeighScale: 30,
+  platformVerticalLimit: [0.5, 0.8],
   playerGravity: 900,
-
-  // player jump force
   jumpForce: 400,
-
   playerStartPosition: 200,
-
   jumps: 2,
-
-  coinPercent: 25,
+  starProbability: 50,
   zombieProbability: 25,
 };
 

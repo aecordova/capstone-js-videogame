@@ -12,6 +12,7 @@ export default class GameScene extends Phaser.Scene {
     this.addedPlatforms = 0;
     this.playerJumps = 0;
     this.dying = false;
+    this.add.image(0, 0, 'bg');
 
     this.platformGroup = this.add.group({
       removeCallback(platform) {
@@ -49,6 +50,26 @@ export default class GameScene extends Phaser.Scene {
         start: 0,
         end: 8,
       }),
+      frameRate: 8,
+      repeat: -1,
+    });
+
+    this.starGroup = this.add.group({
+      removeCallback(star) {
+        star.scene.starPool.add(star);
+      },
+    });
+    this.starPool = this.add.group({
+      removeCallback(star) {
+        star.scene.starGroup.add(star);
+      },
+    });
+    this.anims.create({
+      key: 'shine',
+      frames: this.anims.generateFrameNumbers('star', {
+        start: 0,
+        end: 6,
+      }),
       frameRate: 12,
       repeat: -1,
     });
@@ -79,6 +100,20 @@ export default class GameScene extends Phaser.Scene {
       this.player.setFrame(2);
       this.player.body.setVelocityY(-200);
       this.physics.world.removeCollider(this.platformCollider);
+    }, null, this);
+    this.physics.add.overlap(this.player, this.starGroup, (player, star) => {
+      this.tweens.add({
+        targets: star,
+        y: star.y - 100,
+        alpha: 0,
+        duration: 800,
+        ease: 'Cubic.easeOut',
+        callbackScope: this,
+        onComplete() {
+          this.starGroup.killAndHide(star);
+          this.starGroup.remove(star);
+        },
+      });
     }, null, this);
 
     this.input.on('pointerdown', this.jump, this);
@@ -135,6 +170,25 @@ export default class GameScene extends Phaser.Scene {
           zombie.anims.play('zombieAttack');
           zombie.setDepth(2);
           this.zombieGroup.add(zombie);
+        }
+      }
+      // is there a coin over the platform?
+      if (Phaser.Math.Between(1, 100) <= gameOptions.starProbability) {
+        if (this.starPool.getLength()) {
+          const star = this.starPool.getFirst();
+          star.x = posX;
+          star.y = posY - 80;
+          star.alpha = 1;
+          star.active = true;
+          star.visible = true;
+          this.starPool.remove(star);
+        } else {
+          const star = this.physics.add.sprite(posX, posY - 80, 'star');
+          star.setImmovable(true);
+          star.setVelocityX(platform.body.velocity.x);
+          star.anims.play('shine');
+          star.setDepth(2);
+          this.starGroup.add(star);
         }
       }
     }

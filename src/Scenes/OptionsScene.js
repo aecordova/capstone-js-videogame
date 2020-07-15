@@ -42,7 +42,6 @@ export default class OptionsScene extends Phaser.Scene {
     this.menuButton = this.add.sprite((width / 2), (height / 3) + 150, 'blueButton1').setInteractive();
     this.menuText = this.add.text((width / 2), (height / 3) + 95, 'Menu', { fontSize: '32px', fill: '#fff' });
     this.menuText.setOrigin(0.5, 0.5);
-    // Phaser.Display.Align.In.Center(this.menuText, this.menuButton);
 
     this.menuButton.on('pointerdown', () => {
       this.scene.start('Title');
