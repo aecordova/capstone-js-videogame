@@ -12,7 +12,10 @@ export default class GameScene extends Phaser.Scene {
     this.addedPlatforms = 0;
     this.playerJumps = 0;
     this.dying = false;
-    this.add.image(0, 0, 'bg');
+    this.add.image(0, 0, 'bg').setScale(0.5, 0.5).setOrigin(.2, .1);
+
+    this.smallCloudGroup = this.add.group();
+    this.bigCloudGroup = this.add.group();
 
     this.platformGroup = this.add.group({
       removeCallback(platform) {
@@ -132,7 +135,7 @@ export default class GameScene extends Phaser.Scene {
       platform.displayWidth = platformWidth;
       platform.tileScaleX = 1 / platform.scaleX;
     } else {
-      platform = this.add.tileSprite(posX, posY, platformWidth, 32, 'platform');
+      platform = this.add.tileSprite(posX, posY, platformWidth, 45, 'platform');
       this.physics.add.existing(platform);
       platform.body.setImmovable(true);
       platform.body.setVelocityX(
@@ -172,7 +175,6 @@ export default class GameScene extends Phaser.Scene {
           this.zombieGroup.add(zombie);
         }
       }
-      // is there a coin over the platform?
       if (Phaser.Math.Between(1, 100) <= gameOptions.starProbability) {
         if (this.starPool.getLength()) {
           const star = this.starPool.getFirst();
@@ -228,33 +230,20 @@ export default class GameScene extends Phaser.Scene {
       }
     }, this);
 
-    // this.coinGroup.getChildren().forEach((coin) => {
-    //   if (coin.x < -coin.displayWidth / 2) {
-    //     this.coinGroup.killAndHide(coin);
-    //     this.coinGroup.remove(coin);
-    //   }
-    // }, this);
+    this.starGroup.getChildren().forEach((star) => {
+      if (star.x < -star.displayWidth / 2) {
+        this.starGroup.killAndHide(star);
+        this.starGroup.remove(star);
+      }
+    }, this);
 
-    // this.fireGroup.getChildren().forEach((fire) => {
-    //   if (fire.x < -fire.displayWidth / 2) {
-    //     this.fireGroup.killAndHide(fire);
-    //     this.fireGroup.remove(fire);
-    //   }
-    // }, this);
+    this.zombieGroup.getChildren().forEach((zombie) => {
+      if (zombie.x < -zombie.displayWidth / 2) {
+        this.zombieGroup.killAndHide(zombie);
+        this.zombieGroup.remove(zombie);
+      }
+    }, this);
 
-    // this.mountainGroup.getChildren().forEach((mountain) => {
-    //   if (mountain.x < -mountain.displayWidth) {
-    //     const rightmostMountain = this.getRightmostMountain();
-    //     mountain.x = rightmostMountain + Phaser.Math.Between(100, 350);
-    //     mountain.y = config.height + Phaser.Math.Between(0, 100);
-    //     mountain.setFrame(Phaser.Math.Between(0, 3));
-    //     if (Phaser.Math.Between(0, 1)) {
-    //       mountain.setDepth(1);
-    //     }
-    //   }
-    // }, this);
-
-    // adding new platforms
     if (minDistance > this.nextPlatformDistance) {
       const nextPlatformWidth = Phaser.Math.Between(
         gameOptions.platformSizeRange[0],

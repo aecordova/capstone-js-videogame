@@ -10,6 +10,9 @@ import player from '../assets/gameplay/catrun.png';
 import zombie from '../assets/gameplay/zombie.png';
 import star from '../assets/gameplay/stars.png';
 import background from '../assets/gameplay/background.png';
+import clouds1 from '../assets/gameplay/clouds1.png';
+import clouds2 from '../assets/gameplay/clouds2.png';
+
 
 
 export default class PreloaderScene extends Phaser.Scene {
@@ -89,6 +92,8 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('checkedBox', checkedBox);
     this.load.image('platform', platform);
     this.load.image('bg', background);
+    this.load.image('clouds1', clouds1);
+    this.load.image('clouds2', clouds2);
     this.load.spritesheet('player', player, {
       frameWidth: 40,
       frameHeight: 50,
