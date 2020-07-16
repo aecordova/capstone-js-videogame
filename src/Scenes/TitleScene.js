@@ -21,9 +21,9 @@ export default class TitleScene extends Phaser.Scene {
     this.optionsText = this.add.text(0, 0, 'Options', { fontSize: '36px', fill: '#fff' });
     this.creditsText = this.add.text(0, 0, 'Credits', { fontSize: '36px', fill: '#fff' });
 
-    this.centerObject(this.gameText, (height / 2 - 65) - 70, width, height);
-    this.centerObject(this.optionsText, (height / 2 - 65), width, height);
-    this.centerObject(this.creditsText, (height / 2 - 65) + 70, width, height);
+    this.centerObject(this.gameText, (height / 2 - 65) - 65, width, height);
+    this.centerObject(this.optionsText, (height / 2 - 65) + 5, width, height);
+    this.centerObject(this.creditsText, (height / 2 - 65) + 75, width, height);
 
     this.gameButton.on('pointerdown', () => {
       this.scene.start('Game');
