@@ -23,6 +23,10 @@ module.exports = {
         test: /\.(gif|png|jpe?g|svg|xml|mp3)$/i,
         use: 'file-loader',
       },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
   plugins: [
@@ -34,7 +38,7 @@ module.exports = {
       WEBGL_RENDERER: JSON.stringify(true),
     }),
     new HtmlWebpackPlugin({
-      template: './index.html',
+      template: './src/index.html',
     }),
   ],
 };

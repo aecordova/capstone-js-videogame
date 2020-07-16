@@ -14,7 +14,6 @@ import clouds1 from '../assets/gameplay/clouds1.png';
 import clouds2 from '../assets/gameplay/clouds2.png';
 
 
-
 export default class PreloaderScene extends Phaser.Scene {
   constructor() {
     super('Preloader');
@@ -25,6 +24,10 @@ export default class PreloaderScene extends Phaser.Scene {
   }
 
   preload() {
+    const main = document.querySelector('main');
+    const canvas = document.querySelector('canvas');
+    main.appendChild(canvas);
+
     const { width } = this.cameras.main;
     const { height } = this.cameras.main;
 
@@ -119,7 +122,7 @@ export default class PreloaderScene extends Phaser.Scene {
       this.ready();
     });
 
-    this.timedEvent = this.time.delayedCall(3000, this.ready, [], this);
+    this.timedEvent = this.time.delayedCall(0, this.ready, [], this);
   }
 
   ready() {

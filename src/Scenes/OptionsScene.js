@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import config from '../Config/config';
 
-
 export default class OptionsScene extends Phaser.Scene {
   constructor() {
     super('Options');
@@ -11,7 +10,6 @@ export default class OptionsScene extends Phaser.Scene {
     const { width, height } = config;
     // var music = this.sound.add('bgMusic');
     // music.play();
-
     this.musicOn = true;
     this.soundOn = true;
 

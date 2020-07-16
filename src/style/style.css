@@ -1,0 +1,38 @@
+main {
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+}
+
+.name-form{
+  position: absolute;
+  left: 30%;
+  top: 45%;
+  border: 1px solid blue;
+  border-radius: 25px;
+  padding:3px;
+}
+
+.name-submit{
+  border-radius: 100%;
+  outline: none;
+  border: none;
+  height: 30px;
+  width: 30px;
+  padding: 0;
+  margin-bottom: 1px;
+}
+
+.name-input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 0 10px;
+}
+
+.name-input::placeholder{
+  color: lightgrey;
+  font-size: smaller;
+  font-style: italic;
+}
