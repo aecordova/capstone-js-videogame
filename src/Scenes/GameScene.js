@@ -12,7 +12,18 @@ export default class GameScene extends Phaser.Scene {
     this.addedPlatforms = 0;
     this.playerJumps = 0;
     this.dying = false;
-    this.add.image(0, 0, 'bg').setScale(0.5, 0.5).setOrigin(.2, .1);
+    this.score = 0;
+
+    this.add.image(0, 0, 'bg').setScale(0.5, 0.5).setOrigin(0.2, 0.1);
+    this.scoreText = this.make.text({
+      x: width / 2,
+      y: height - 40,
+      text: `Score: ${this.score}`,
+      style: {
+        font: '15px monospace',
+        fill: '#ffffff',
+      },
+    }).setOrigin(0.5, 0.5);
 
     this.smallCloudGroup = this.add.group();
     this.bigCloudGroup = this.add.group();
@@ -104,7 +115,9 @@ export default class GameScene extends Phaser.Scene {
       this.player.body.setVelocityY(-200);
       this.physics.world.removeCollider(this.platformCollider);
     }, null, this);
+
     this.physics.add.overlap(this.player, this.starGroup, (player, star) => {
+      this.score += 100;
       this.tweens.add({
         targets: star,
         y: star.y - 100,
@@ -117,7 +130,7 @@ export default class GameScene extends Phaser.Scene {
           this.starGroup.remove(star);
         },
       });
-    }, null, this);
+    });
 
     this.input.on('pointerdown', this.jump, this);
   }
@@ -213,8 +226,8 @@ export default class GameScene extends Phaser.Scene {
     if (this.player.y > config.height) {
       this.scene.start('Game');
     }
-
     this.player.x = gameOptions.playerStartPosition;
+    this.scoreText.setText(`Score: ${this.score}`);
 
     let minDistance = config.width;
     let rightmostPlatformHeight = 0;
